@@ -21,7 +21,7 @@ if ( ! function_exists( 'generate_archive_title' ) ) {
 			return;
 		}
 
-		$clearfix = is_author() ? ' clearfix' : '';
+		$clearfix = is_author() && 'floats' === generate_get_option( 'grid' ) ? ' clearfix' : '';
 		?>
 		<header class="page-header<?php echo $clearfix; ?>">
 			<?php

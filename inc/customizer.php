@@ -483,6 +483,28 @@ if ( ! function_exists( 'generate_customize_register' ) ) {
 			)
 		);
 
+		$wp_customize->add_setting(
+			'generate_settings[grid]',
+			array(
+				'default' => $defaults['grid'],
+				'type' => 'option',
+				'sanitize_callback' => 'generate_sanitize_choices',
+			)
+		);
+		$wp_customize->add_control(
+			'generate_settings[grid]',
+			array(
+				'type' => 'select',
+				'label' => __( 'Grid', 'generatepress' ),
+				'section' => 'generate_layout_container',
+				'choices' => array(
+					'floats' => __( 'Floats', 'generatepress' ),
+					'flexbox' => __( 'Flexbox', 'generatepress' ),
+				),
+				'settings' => 'generate_settings[grid]',
+			)
+		);
+
 		$wp_customize->add_section(
 			'generate_top_bar',
 			array(

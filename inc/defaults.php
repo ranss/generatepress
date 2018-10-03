@@ -18,6 +18,7 @@ if ( ! function_exists( 'generate_get_defaults' ) ) {
 	function generate_get_defaults() {
 		return apply_filters( 'generate_option_defaults',
 			array(
+				'grid' => 'floats',
 				'hide_title' => '',
 				'hide_tagline' => '',
 				'logo' => '',

@@ -25,11 +25,16 @@ if ( ! function_exists( 'generate_construct_header' ) ) {
 				 * generate_before_header_content hook.
 				 *
 				 * @since 0.1
+				 *
+				 * @hooked generate_add_site_logo - 5
+				 * @hooked generate_add_site_branding - 10
 				 */
 				do_action( 'generate_before_header_content' );
 
 				// Add our main header items.
-				generate_header_items();
+				if ( 'floats' === generate_get_option( 'grid' ) ) {
+					generate_header_items();
+				}
 
 				/**
 				 * generate_after_header_content hook.
@@ -37,26 +42,13 @@ if ( ! function_exists( 'generate_construct_header' ) ) {
 				 * @since 0.1
 				 *
 				 * @hooked generate_add_navigation_float_right - 5
+				 * @hooked generate_add_header_widget - 10
 				 */
 				do_action( 'generate_after_header_content' );
 				?>
 			</div><!-- .inside-header -->
 		</header><!-- #masthead -->
 		<?php
-	}
-}
-
-if ( ! function_exists( 'generate_header_items' ) ) {
-	/**
-	 * Build the header contents.
-	 * Wrapping this into a function allows us to customize the order.
-	 *
-	 * @since 1.2.9.7
-	 */
-	function generate_header_items() {
-		generate_construct_header_widget();
-		generate_construct_site_title();
-		generate_construct_logo();
 	}
 }
 
@@ -134,6 +126,21 @@ if ( ! function_exists( 'generate_construct_logo' ) ) {
 	}
 }
 
+add_action( 'generate_before_header_content', 'generate_add_site_logo', 5 );
+/**
+ * Add the site logo to our header.
+ * Only added if we aren't using floats to preserve backwards compatibility.
+ *
+ * @since 2.2
+ */
+function generate_add_site_logo() {
+	if ( 'floats' === generate_get_option( 'grid' ) ) {
+		return;
+	}
+
+	generate_construct_logo();
+}
+
 if ( ! function_exists( 'generate_construct_site_title' ) ) {
 	/**
 	 * Build the site title and tagline.
@@ -190,6 +197,21 @@ if ( ! function_exists( 'generate_construct_site_title' ) ) {
 	}
 }
 
+add_action( 'generate_before_header_content', 'generate_add_site_branding' );
+/**
+ * Add the site branding to our header.
+ * Only added if we aren't using floats to preserve backwards compatibility.
+ *
+ * @since 2.2
+ */
+function generate_add_site_branding() {
+	if ( 'floats' === generate_get_option( 'grid' ) ) {
+		return;
+	}
+
+	generate_construct_site_title();
+}
+
 if ( ! function_exists( 'generate_construct_header_widget' ) ) {
 	/**
 	 * Build the header widget.
@@ -203,6 +225,21 @@ if ( ! function_exists( 'generate_construct_header_widget' ) ) {
 			</div>
 		<?php endif;
 	}
+}
+
+add_action( 'generate_after_header_content', 'generate_add_header_widget' );
+/**
+ * Add the header widget to our header.
+ * Only used when grid isn't using floats to preserve backwards compatibility.
+ *
+ * @since 2.2
+ */
+function generate_add_header_widget() {
+	if ( 'floats' === generate_get_option( 'grid' ) ) {
+		return;
+	}
+
+	generate_construct_header_widget();
 }
 
 if ( ! function_exists( 'generate_top_bar' ) ) {
@@ -263,4 +300,18 @@ function generate_do_skip_to_content_link() {
 		esc_attr__( 'Skip to content', 'generatepress' ),
 		esc_html__( 'Skip to content', 'generatepress' )
 	);
+}
+
+if ( ! function_exists( 'generate_header_items' ) ) {
+	/**
+	 * Build the header contents.
+	 * Wrapping this into a function allows us to customize the order.
+	 *
+	 * @since 1.2.9.7
+	 */
+	function generate_header_items() {
+		generate_construct_header_widget();
+		generate_construct_site_title();
+		generate_construct_logo();
+	}
 }

@@ -81,6 +81,17 @@ if ( ! function_exists( 'generate_base_css' ) ) {
 			$css->add_property( 'width', absint( generate_get_option( 'logo_width' ) ), false, 'px' );
 		}
 
+		if ( 'flexbox' === generate_get_option( 'grid' ) ) {
+			$right_sidebar_width = apply_filters( 'generate_right_sidebar_width', '25' );
+			$left_sidebar_width = apply_filters( 'generate_left_sidebar_width', '25' );
+
+			$css->set_selector( '#right-sidebar' );
+			$css->add_property( 'width', absint( $right_sidebar_width ) . '%' );
+
+			$css->set_selector( '#left-sidebar' );
+			$css->add_property( 'width', absint( $right_sidebar_width ) . '%' );
+		}
+
 		do_action( 'generate_base_css', $css );
 
 		return apply_filters( 'generate_base_css_output', $css->css_output() );
@@ -603,21 +614,23 @@ if ( ! function_exists( 'generate_spacing_css' ) ) {
 
 		$output = '';
 
-		$generate_settings = wp_parse_args(
-			get_option( 'generate_settings', array() ),
-			generate_get_color_defaults()
-		);
+		if ( 'floats' === generate_get_option( 'grid' ) ) {
+			$generate_settings = wp_parse_args(
+				get_option( 'generate_settings', array() ),
+				generate_get_color_defaults()
+			);
 
-		// Find out if the content background color and sidebar widget background color is the same.
-		$sidebar = strtoupper( $generate_settings['sidebar_widget_background_color'] );
-		$content = strtoupper( $generate_settings['content_background_color'] );
-		$colors_match = ( ( $sidebar == $content ) || '' == $sidebar ) ? true : false;
+			// Find out if the content background color and sidebar widget background color is the same.
+			$sidebar = strtoupper( $generate_settings['sidebar_widget_background_color'] );
+			$content = strtoupper( $generate_settings['content_background_color'] );
+			$colors_match = ( ( $sidebar == $content ) || '' == $sidebar ) ? true : false;
 
-		// If they're all 40 (default), remove the padding when one container is set.
-		// This way, the user can still adjust the padding and it will work (unless they want 40px padding).
-		// We'll also remove the padding if there's no color difference between the widgets and content background color.
-		if ( ( '40' == $spacing_settings['widget_top'] && '40' == $spacing_settings['widget_right'] && '40' == $spacing_settings['widget_bottom'] && '40' == $spacing_settings['widget_left'] ) && $colors_match ) {
-			$output .= '.one-container .sidebar .widget{padding:0px;}';
+			// If they're all 40 (default), remove the padding when one container is set.
+			// This way, the user can still adjust the padding and it will work (unless they want 40px padding).
+			// We'll also remove the padding if there's no color difference between the widgets and content background color.
+			if ( ( '40' == $spacing_settings['widget_top'] && '40' == $spacing_settings['widget_right'] && '40' == $spacing_settings['widget_bottom'] && '40' == $spacing_settings['widget_left'] ) && $colors_match ) {
+				$output .= '.one-container .sidebar .widget{padding:0px;}';
+			}
 		}
 
 		do_action( 'generate_spacing_css', $css );

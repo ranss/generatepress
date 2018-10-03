@@ -23,9 +23,16 @@ if ( ! function_exists( 'generate_scripts' ) ) {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$dir_uri = get_template_directory_uri();
 
-		wp_enqueue_style( 'generate-style-grid', $dir_uri . "/css/unsemantic-grid{$suffix}.css", false, GENERATE_VERSION, 'all' );
-		wp_enqueue_style( 'generate-style', $dir_uri . "/style{$suffix}.css", array( 'generate-style-grid' ), GENERATE_VERSION, 'all' );
-		wp_enqueue_style( 'generate-mobile-style', $dir_uri . "/css/mobile{$suffix}.css", array( 'generate-style' ), GENERATE_VERSION, 'all' );
+		if ( 'floats' === generate_get_option( 'grid' ) ) {
+			wp_enqueue_style( 'generate-style-grid', $dir_uri . "/css/unsemantic-grid{$suffix}.css", false, GENERATE_VERSION, 'all' );
+			wp_enqueue_style( 'generate-style', $dir_uri . "/style{$suffix}.css", array( 'generate-style-grid' ), GENERATE_VERSION, 'all' );
+			wp_enqueue_style( 'generate-mobile-style', $dir_uri . "/css/mobile{$suffix}.css", array( 'generate-style' ), GENERATE_VERSION, 'all' );
+		}
+
+		if ( 'flexbox' === generate_get_option( 'grid' ) ) {
+			wp_enqueue_style( 'generate-style', $dir_uri . "/css/style{$suffix}.css", array(), GENERATE_VERSION, 'all' );
+			wp_enqueue_style( 'generate-mobile-style', $dir_uri . "/css/responsive{$suffix}.css", array(), GENERATE_VERSION, 'all' );
+		}
 
 		if ( is_child_theme() ) {
 			wp_enqueue_style( 'generate-child', get_stylesheet_uri(), array( 'generate-style' ), filemtime( get_stylesheet_directory() . '/style.css' ), 'all' );
