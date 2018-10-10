@@ -1474,13 +1474,13 @@ ol.comment-list {
 	margin: 0;
 }
 
-div:not(.entry-content) .widget ul li {
+.widget ul li {
 	list-style-type: none;
 	position: relative;
 	padding-bottom: 5px;
 }
 
-div:not(.entry-content) .widget ul li ul li:before {
+.widget ul li ul li:before {
 	opacity: .7;
 }
 

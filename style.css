@@ -1144,9 +1144,6 @@ ol.comment-list {
 
 /* =Start custom CSS
 ----------------------------------------------- */
-body {
-	font-size: 15px;
-}
 
 a,
 button,
@@ -1375,13 +1372,13 @@ h4, h5, h6 {
 	margin: 0;
 }
 
-div:not(.entry-content) .widget ul li {
+.widget ul li {
 	list-style-type: none;
 	position:relative;
 	padding-bottom: 5px;
 }
 
-div:not(.entry-content) .widget ul li ul li:before {
+.widget ul li ul li:before {
 	opacity:.7;
 }
 
@@ -1426,10 +1423,6 @@ div:not(.entry-content) .widget ul li ul li:before {
 
 .footer-widgets {
 	padding: 40px 0;
-}
-
-.inside-footer-widgets .inner-padding {
-	padding: 0 40px;
 }
 
 .site-info {
@@ -1543,8 +1536,6 @@ footer.entry-meta {
 	margin-top: 2em;
 }
 
-footer.entry-meta .author:before,
-footer.entry-meta .posted-on:before,
 .cat-links:before,
 .tags-links:before,
 .comments-link:before,
@@ -1557,14 +1548,6 @@ footer.entry-meta .posted-on:before,
 	width: 13px;
 	text-align: center;
 	display: inline-block;
-}
-
-footer.entry-meta .author:before {
-	content: "\f007";
-}
-
-footer.entry-meta .posted-on:before {
-	content: "\f073";
 }
 
 .cat-links:before {
@@ -1589,9 +1572,7 @@ footer.entry-meta .posted-on:before {
 
 .cat-links,
 .tags-links,
-.comments-link,
-footer.entry-meta .posted-on,
-footer.entry-meta .byline {
+.comments-link {
 	display: block;
 }
 
